@@ -8,6 +8,9 @@ The projects include **four different databases** and multiple API frameworks, g
 
 ---
 
+
+# NOTE- Mongodb i have covered in my last series docker the ultimate guide here caching with databse(in memory projects are present)
+
 ## 🐳 Prerequisite
 
 Before starting these projects, I recommend completing my:
