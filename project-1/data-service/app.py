@@ -15,11 +15,12 @@ redis_port = int(os.getenv("REDIS_PORT"))
 cache = redis.Redis(host=redis_host, port=redis_port)
 
 # PostgreSQL config
-DB_HOST = os.getenv("DB_HOST")
-DB_PORT = os.getenv("DB_PORT")
-DB_NAME = os.getenv("DB_NAME")
-DB_USER = os.getenv("DB_USER")
-DB_PASS = os.getenv("DB_PASS")
+# PostgreSQL config
+DB_HOST = os.getenv("POSTGRES_HOST")
+DB_PORT = os.getenv("POSTGRES_PORT")
+DB_NAME = os.getenv("POSTGRES_DB")
+DB_USER = os.getenv("POSTGRES_USER")
+DB_PASS = os.getenv("POSTGRES_PASSWORD")
 
 def connect_db_with_retry(retries=5, delay=3):
     for attempt in range(retries):
@@ -32,6 +33,14 @@ def connect_db_with_retry(retries=5, delay=3):
             print(f"DB connection failed (attempt {attempt+1}): {e}")
             time.sleep(delay)
     raise Exception("Failed to connect to DB after retries.")
+
+@app.route('/')
+def health():
+    return jsonify({
+        "status": "UP",
+        "service": "data-service"
+    }), 200
+
 
 @app.route('/user/<string:name>')
 def get_user(name):
@@ -57,5 +66,5 @@ def get_user(name):
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5001)
+    app.run(host='0.0.0.0', port=5000)
 
